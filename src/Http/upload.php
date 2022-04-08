@@ -22,12 +22,27 @@ use \Kwaadpepper\ResponsiveFileManager\RfmMimeTypesLib;
 
 $config = config('rfm');
 
+$_POST=request();
+$_FILES=request()->allFiles();
+$_SERVER=request()->server();
+
 /**
  * Check RF session
  */
 if (!session()->exists('RF') || session('RF.verify') != "RESPONSIVEfilemanager") {
     RFM::response(__('forbidden') . RFM::addErrorLocation(), 403)->send();
     exit;
+}
+
+if (isset($_POST['path']))
+{
+    $storeFolder = $_POST['path'];
+    $storeFolderThumb = $_POST['path_thumb'];
+}
+else
+{
+    $storeFolder = $config['current_path'].$_POST["fldr"]; // correct for when IE is in Compatibility mode
+    $storeFolderThumb = $config['thumbs_base_path'].$_POST["fldr"];
 }
 
 try {
@@ -41,6 +56,7 @@ try {
         $thumb_base = $config['thumbs_base_path'];
     }
 
+    // esk. kodlarda bu yok. kaldırmak gerekebilir bu if elseyi
     if (isset($_POST["fldr"])) {
         $_POST['fldr'] = str_replace('undefined', '', $_POST['fldr']);
         $storeFolder = $source_base . $_POST["fldr"];
@@ -49,6 +65,7 @@ try {
         return;
     }
 
+    // bu da eski kodlarda yok
     $fldr = rawurldecode(trim(strip_tags($_POST['fldr']), "/") . "/");
 
     if (!RFM::checkRelativePath($fldr)) {

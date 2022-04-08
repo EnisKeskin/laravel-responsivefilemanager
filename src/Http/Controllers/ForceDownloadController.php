@@ -1,8 +1,9 @@
 <?php
 
-namespace Kwaadpepper\ResponsiveFileManager\Http\Controllers;
+namespace Kwaadpepper\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Kwaadpepper\ResponsiveFileManager\RFM;
 
 class ForceDownloadController extends Controller
 {
@@ -47,27 +48,16 @@ class ForceDownloadController extends Controller
         // make sure the file exists
         //dd($ftp, $file_path, $file_name.'.'.$file_ext, $local_file_path_to_download, RFM::ftpDownloadFile($ftp, $file_path, $file_name.'.'.$file_ext, $local_file_path_to_download));
         if ($ftp) {
-            /* header('Content-Description: File Transfer');
-             header('Content-Type: application/octet-stream');
-             header("Content-Transfer-Encoding: Binary");
-             header('Content-Disposition: attachment; filename="'.basename($file_name).'"');
-             header('Expires: 0');
-             header('Cache-Control: must-revalidate');
-             header('Pragma: public');
-             header('Content-Length: ' . filesize($local_file_path_to_download));
-             readfile($local_file_path_to_download);*/
-
-            $filename = 'temp-image.jpg';
-            $tempImage = tempnam(sys_get_temp_dir(), $filename);
+            $tempImage = tempnam(sys_get_temp_dir(), $file_name);
             copy($file_path, $tempImage);
 
-            return response()->download($tempImage, $filename);
-
-            /*header("Content-Type: application/octet-stream");
-            header("Connection: keep-alive");
-            header("Content-Transfer-Encoding: Binary");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Content-disposition: attachment; filename=\"" . $file_path . "\"");*/
+            return response()->download($tempImage, $file_name, [
+                "Content-Type" => "application/octet-stream",
+                "Connection" => "keep-alive",
+                "Content-Transfer-Encoding" => "Binary",
+                "Cache-Control" => "no-store, no-cache, must-revalidate",
+                "Content-disposition" => "attachment; filename=\"" . $file_path . "\"",
+            ]);
 
         }
     }

@@ -10,7 +10,6 @@ $FM_ROUTE_PREFIX = "/filemanager/";
 $FM_ROUTES =    ['ajax_calls.php' => ['get', 'post'],
                 'dialog.php' => ['get'],
                 'execute.php' => ['post'],
-                'force_download.php' => ['post'],
                 'fview.php' => ['get'],
                 'upload.php' => ['get', 'post']];
 
@@ -34,5 +33,5 @@ Route::group(
 );
 
 Route::group(['middleware' => 'web', 'prefix' => 'filemanager'], function () {
-    Route::post('force_download.php', [Kwaadpepper\ResponsiveFileManager\Http\Controllers\ForceDownloadController::class, 'download']);
+    Route::post('force_download.php', [\Kwaadpepper\Http\Controllers\ForceDownloadController::class, 'download']);
 });
