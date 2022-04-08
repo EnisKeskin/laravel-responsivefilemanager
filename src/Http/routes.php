@@ -32,3 +32,7 @@ Route::group(
         }
     }
 );
+
+Route::group(['middleware' => 'web', 'prefix' => 'filemanager'], function () {
+    Route::post('force_download.php', [Kwaadpepper\ResponsiveFileManager\Http\Controllers\ForceDownloadController::class, 'download']);
+});

@@ -39,6 +39,8 @@ $time = time();
 
 $vendor_path = parse_url(asset('vendor/responsivefilemanager') . '/')['path'];
 
+$_GET=request();
+$_SERVER=request()->server();
 
 if (FM_USE_ACCESS_KEYS == true) {
     if (!isset($_GET['akey'], $config['access_keys']) || empty($config['access_keys'])) {
@@ -1102,7 +1104,7 @@ $get_params = http_build_query($get_params);
                             if ($file == '.' || (substr($file, 0, 1) == '.' && isset($file_array['extension']) && $file_array['extension'] == RFM::fixStrtolower(__('Type_dir'))) || (isset($file_array['extension']) && $file_array['extension'] != RFM::fixStrtolower(__('Type_dir'))) || ($file == '..' && $subdir == '') || in_array($file, $config['hidden_folders']) || ($filter != '' && $n_files > $config['file_number_limit_js'] && $file != ".." && stripos($file, $filter) === false)) {
                                 continue;
                             }
-                            $new_name = RFM::fixGetParams($file, $config);
+                            $new_name = RFM::fixFilename($file, $config);
                             if ($ftp && $file != '..' && $file != $new_name) {
                                 //rename
                                 RFM::renameFolder($config['current_path'] . $subdir . $file, $new_name, $ftp, $config);
@@ -1120,12 +1122,11 @@ $get_params = http_build_query($get_params);
                                 $src = explode("/", $subdir);
                                 unset($src[count($src) - 2]);
                                 $src = implode("/", $src);
-                                if ($src == '') {
-                                    $src = "/";
-                                }
+                                if ($src == '') $src = "/";
                             } elseif ($file != '..') {
                                 $src = $subdir . $file . "/";
                             }
+
 
                         ?>
                             <li data-name="<?php echo $file ?>" class="<?php if ($file == '..') {
@@ -1230,7 +1231,7 @@ $get_params = http_build_query($get_params);
                             if (strlen($file_array['extension']) === 0) {
                                 $filename = $file;
                             }
-                            if (!$ftp) {
+                            /*if (!$ftp) {
                                 $file_path = '/' . $config['current_path'] . $rfm_subfolder . $subdir . $file;
                                 //check if file have illegal caracter
 
@@ -1258,6 +1259,38 @@ $get_params = http_build_query($get_params);
                                 }
                             } else {
                                 $file_path = route('FMfview.php') . '?ox=' . encrypt(['path' => $config['upload_dir'] . $rfm_subfolder . $subdir . $file, 'name' => $file]);
+                            }*/
+
+                            if (!$ftp) {
+                                // belki başına '/' eklemen gerebilir.
+                                $file_path = $config['current_path'] . $rfm_subfolder . $subdir . $file;
+                                //check if file have illegal caracter
+
+                                if ($file != RFM::fixFilename($file, $config)) {
+                                    $file1 = RFM::fixFilename($file, $config);
+                                    $file_path1 = ($config['current_path'] . $rfm_subfolder . $subdir . $file1);
+                                    if (file_exists($file_path1)) {
+                                        $i = 1;
+                                        $info = pathinfo($file1);
+                                        while (file_exists($config['current_path'] . $rfm_subfolder . $subdir . $info['filename'] . ".[" . $i . "]." . $info['extension'])) {
+                                            $i++;
+                                        }
+                                        $file1 = $info['filename'] . ".[" . $i . "]." . $info['extension'];
+                                        $file_path1 = ($config['current_path'] . $rfm_subfolder . $subdir . $file1);
+                                    }
+
+                                    $filename = substr($file1, 0, '-' . (strlen($file_array['extension']) + 1));
+                                    // buraya belki if eklemen gerekebilir
+                                    /*if (strlen($file_array['extension']) === 0) {
+                                        $filename = $file1;
+                                    }*/
+                                    RFM::renameFile($file_path, RFM::fixFilename($filename, $config), $ftp, $config);
+                                    $file = $file1;
+                                    $file_array['extension'] = fix_filename($file_array['extension'], $config);
+                                    $file_path = $file_path1;
+                                }
+                            } else {
+                                $file_path = $config['base_url'] . $config['upload_dir'] . $rfm_subfolder . $subdir . $file;
                             }
 
                             $is_img = false;
@@ -1278,7 +1311,7 @@ $get_params = http_build_query($get_params);
                                      * disabling for now
                                      * TODO: cache FTP thumbnails for preview
                                      */
-                                    $mini_src = $src_thumb = route('FMfview.php') . '?ox=' . encrypt(['path' => $config['ftp_thumbs_dir'] . $subdir . $file, 'name' => $file]);
+                                    $mini_src = $src_thumb = $config['base_url'] . $config['ftp_thumbs_dir'] . $subdir . $file;
                                     $creation_thumb_path = "/" . $config['ftp_base_folder'] . $config['ftp_thumbs_dir'] . $subdir . $file;
                                 } else {
                                     $creation_thumb_path = $mini_src = $src_thumb = $thumbs_path . $file;
@@ -1374,7 +1407,7 @@ $get_params = http_build_query($get_params);
                                                                                                                 } ?>
 
                                                 <div class="img-container">
-                                                    <img class="<?php echo $show_original ? "original" : "" ?><?php echo $is_icon_thumb ? " icon" : "" ?>" data-src="<?php echo (in_array($file_array['extension'], $config['editable_text_file_exts']) ?  '' : '') . $src_thumb; ?>">
+                                                    <img deneme="1" class="<?php echo $show_original ? "original" : "" ?><?php echo $is_icon_thumb ? " icon" : "" ?>" data-src="<?php echo $src_thumb; ?>">
                                                 </div>
                                             </div>
                                             <div class="img-precontainer-mini <?php if ($is_img) {
@@ -1426,7 +1459,7 @@ $get_params = http_build_query($get_params);
                                                                                                                                                                         } ?>"></i></a>
 
                                                 <?php if ($is_img && $src_thumb != "") { ?>
-                                                    <a class="tip-right preview" title="<?php echo __('Preview') ?>" data-featherlight="image" href="<?php echo $src; ?>"><i class=" icon-eye-open"></i></a>
+                                                    <a class="tip-right preview" title="<?php echo __('Preview') ?>" data-featherlight="image" data-toggle="lightbox" href="#previewLightbox" data-url="<?php echo $src; ?>"><i class=" icon-eye-open"></i></a>
                                                 <?php } elseif (($is_video || $is_audio) && in_array($file_array['extension'], $config['jplayer_exts'])) { ?>
                                                     <a class="tip-right modalAV <?php if ($is_audio) {
                                                                                     echo "audio";
@@ -1622,6 +1655,11 @@ $get_params = http_build_query($get_params);
             });
         }
     </script>
+    <div id="previewLightbox" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class='lightbox-content'>
+            <img id="full-img" src="">
+        </div>
+    </div>
     <div id="version" style="display: none;"><?php echo $composerVersion; ?></div>
 </body>
 

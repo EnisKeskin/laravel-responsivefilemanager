@@ -17,6 +17,9 @@
 use \Kwaadpepper\ResponsiveFileManager\RFM;
 use \Kwaadpepper\ResponsiveFileManager\RfmMimeTypesLib;
 
+$_GET=request();
+$_SERVER=request()->server();
+
 /**
  * Check RF session
  */
@@ -38,7 +41,7 @@ if (strpos(request()->post('name'), '/') !== false) {
 $ftp = RFM::ftpCon(config('rfm'));
 
 if ($ftp) {
-    $path = config('rfm.ftp_base_folder') .  config('rfm.upload_dir') . request()->post('path');
+    $path = config('rfm.base_url') .  config('rfm.upload_dir') . request()->post('path');
 } else {
     $path = config('rfm.current_path') . request()->post('path');
 }
@@ -57,8 +60,9 @@ $file_path = $path . $name;
 
 $local_file_path_to_download = "";
 // make sure the file exists
-if ($ftp && RFM::ftpDownloadFile($ftp, $file_path, $file_name.'.'.$file_ext, $local_file_path_to_download)) {
-    header('Content-Description: File Transfer');
+//dd($ftp, $file_path, $file_name.'.'.$file_ext, $local_file_path_to_download, RFM::ftpDownloadFile($ftp, $file_path, $file_name.'.'.$file_ext, $local_file_path_to_download));
+if ($ftp) {
+   /* header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
     header("Content-Transfer-Encoding: Binary");
     header('Content-Disposition: attachment; filename="'.basename($file_name).'"');
@@ -66,12 +70,22 @@ if ($ftp && RFM::ftpDownloadFile($ftp, $file_path, $file_name.'.'.$file_ext, $lo
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
     header('Content-Length: ' . filesize($local_file_path_to_download));
-    readfile($local_file_path_to_download);
-    exit;
+    readfile($local_file_path_to_download);*/
+
+    return response()->download(readfile($file_path));
+
+    /*header("Content-Type: application/octet-stream");
+    header("Connection: keep-alive");
+    header("Content-Transfer-Encoding: Binary");
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Content-disposition: attachment; filename=\"" . $file_path . "\"");*/
+
+    
+    Swoole\Event::exit();
 } elseif (is_file($file_path) && is_readable($file_path)) {
     if (!file_exists($path . $name)) {
         RFM::response(__('File_Not_Found') . RFM::addErrorLocation(), 404)->send();
-        exit;
+        return;
     }
 
     $size = filesize($file_path);
@@ -138,4 +152,4 @@ if ($ftp && RFM::ftpDownloadFile($ftp, $file_path, $file_name.'.'.$file_ext, $lo
     header("HTTP/1.0 404 Not Found");
 }
 
-exit;
+return;

@@ -607,7 +607,30 @@ class RFM
      */
     public static function createFolder($path = null, $path_thumbs = null, $ftp = null, $config = null)
     {
-        if ($ftp) {
+        if($ftp){
+            if ($path){
+                $ftp->mkdir($path);
+            }
+            try {
+
+                $ftp->mkdir($path_thumbs);
+            }catch (\Exception $e){
+                return false;
+            }
+        }else{
+            $oldumask = umask(0);
+            if ($path && ! file_exists($path))
+            {
+                mkdir($path, 0755, true);
+            } // or even 01777 so you get the sticky bit set
+            if ($path_thumbs && ! file_exists($path_thumbs))
+            {
+                mkdir($path_thumbs, 0755, true) or die("$path_thumbs cannot be found");
+            } // or even 01777 so you get the sticky bit set
+            umask($oldumask);
+        }
+        /*if ($ftp) {
+            
             return $ftp->mkdir('/' . config('rfm.ftp_base_folder') . '/' . $path) && $ftp->mkdir('/' . config('rfm.ftp_base_folder') . '/' . $path_thumbs);
         } else {
             if (file_exists($path) || file_exists($path_thumbs)) {
@@ -626,7 +649,7 @@ class RFM
             } // or even 01777 so you get the sticky bit set
             umask($oldumask);
             return true;
-        }
+        }*/
     }
 
     /**
@@ -1415,7 +1438,7 @@ class RFM
             exit;
         }
 
-        $file_path = config('rfm.ftp_base_folder') . '/' . $param['path'];
+        $file_path = $param['path'];
 
         $local_file_path_to_download = "";
         // make sure the file exists

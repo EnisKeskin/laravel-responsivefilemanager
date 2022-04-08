@@ -11,6 +11,9 @@
 
 use \Kwaadpepper\ResponsiveFileManager\RFM;
 
+$_GET=request();
+$_SERVER=request()->server();
+
 $local_file_path_to_download = RFM::getLocalFileFromEncrypted(request()->get('ox'));
 
 header('Content-Description: File Display');

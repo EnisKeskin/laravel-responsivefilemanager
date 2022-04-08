@@ -16,6 +16,7 @@
   "autoload": {
     "psr-4": {
       "Kwaadpepper\\ResponsiveFileManager\\": "src/ResponsiveFileManager/",
+      "Kwaadpepper\\Http\\": "src/Http/",
       "Kwaadpepper\\FtpClient\\": "src/FtpClient/"
     }
   }
