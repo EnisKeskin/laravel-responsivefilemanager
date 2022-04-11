@@ -25,6 +25,10 @@ $version = config('rfm.version');
 
 $languages = include __DIR__.'/../I18N/languages.php';
 
+try {
+    $_GET = \request()->query();
+    $_POST = request()->post();
+
 /**
  * Check RF session
  */
@@ -74,7 +78,9 @@ if (isset($_GET['action'])) {
                     session()->put('RF.filter', $_GET['type']);
                 }
             } else {
-                RFM::response(__('view type number missing').RFM::addErrorLocation())->send();
+                if (isset($_GET['type']) && $_GET['type'] !== null) {
+                    RFM::response(__('view type number missing').RFM::addErrorLocation())->send();
+                }
                 exit;
             }
             break;
@@ -748,3 +754,6 @@ if (isset($_GET['action'])) {
 }
 
 session()->save();
+}catch (Swoole\ExitException $e) {
+    Swoole\Event::exit();
+}

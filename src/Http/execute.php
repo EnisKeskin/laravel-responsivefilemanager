@@ -21,6 +21,11 @@ use \Kwaadpepper\ResponsiveFileManager\RFM;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $config = config('rfm');
+$_GET = \request()->query();
+$_POST = request()->post();
+
+try {
+    
 
 /**
  * Check RF session
@@ -49,14 +54,14 @@ if ($ftp) {
         RFM::response(__('no path post param') . RFM::addErrorLocation(), 400)->send();
         exit;
     }
-
-    $info = request()->get('action') !== 'create_folder' ?
-        RFM::decrypt(Request::create(request()->post('path'))->get('ox')) : [
+//dd(Request::create($config['base_url'].'/'.request()->post('path'))->get('ox'), request()->post('path'), $config['base_url'].request()->post('path'));
+    $info =  [
             'path' => $config['current_path'] . request()->post('path', '')
         ];
+
     $name = request()->post('name');
-    $path = $info['path'];
-    $path_thumb = str_replace($config['current_path'], $config['thumbs_base_path'], $path);
+    $path = $config['upload_dir'].$info['path'];
+    $path_thumb = $config['ftp_thumbs_dir'].str_replace($config['current_path'], $config['thumbs_base_path'], $path);
 }
 
 $returnPaths = function ($_path, $_name, $config) use ($ftp) {
@@ -102,6 +107,7 @@ if (isset($_POST['paths'])) {
 }
 
 $info = pathinfo($path);
+
 if (
     isset($info['extension']) && !(isset($_GET['action']) &&
         ($_GET['action'] == 'create_folder') ||
@@ -109,11 +115,13 @@ if (
         ($_GET['action'] == 'rename_folder')) && !RFM::checkExtension($info['extension'], $config)
     && $_GET['action'] != 'create_file'
 ) {
+
     RFM::response(__('wrong extension') . RFM::addErrorLocation())->send();
     exit;
 }
 
 if (isset($_GET['action'])) {
+
     switch ($_GET['action']) {
         case 'delete_file':
             RFM::deleteFile($path, $path_thumb, $config);
@@ -131,6 +139,7 @@ if (isset($_GET['action'])) {
                 if ($ftp) {
                     RFM::deleteDir($path, $ftp, $config);
                     RFM::deleteDir($path_thumb, $ftp, $config);
+
                 } else {
                     if (is_dir($path_thumb)) {
                         RFM::deleteDir($path_thumb, null, $config);
@@ -156,6 +165,7 @@ if (isset($_GET['action'])) {
             break;
         case 'create_folder':
             if ($config['create_folders']) {
+                
                 $name = RFM::fixGetParams($_POST['name'], $config);
                 $path .= $name;
                 $path_thumb .= $name;
@@ -165,13 +175,15 @@ if (isset($_GET['action'])) {
                     $ftp,
                     $config
                 );
-                if (!$res) {
+                
+                if ($res === false) {
                     RFM::response(__('Rename_existing_folder') . RFM::addErrorLocation())->send();
                 }
             }
             break;
         case 'rename_folder':
             if ($config['rename_folders']) {
+
                 if ($ftp && !is_dir($path) && !RFM::ftpIsDir($ftp, $path)) {
                     RFM::response(__('wrong path') . RFM::addErrorLocation())->send();
                     exit;
@@ -184,7 +196,11 @@ if (isset($_GET['action'])) {
                         RFM::response(__('Rename_existing_folder') . RFM::addErrorLocation())->send();
                         exit;
                     }
-                    RFM::renameFolder($path_thumb, $name, $ftp, $config);
+                    try {
+                        RFM::renameFolder($path_thumb, $name, $ftp, $config);
+                    }catch (ErrorException $e) {
+                        exit;
+                    }
                     if (!$ftp && $config['fixed_image_creation']) {
                         foreach ($config['fixed_path_from_filemanager'] as $k => $paths) {
                             if ($paths != "" && $paths[strlen($paths) - 1] != "/") {
@@ -617,4 +633,7 @@ if (isset($_GET['action'])) {
             RFM::response(__('wrong action') . RFM::addErrorLocation())->send();
             exit;
     }
+}
+}catch (Swoole\ExitException $e) {
+    Swoole\Event::exit();
 }

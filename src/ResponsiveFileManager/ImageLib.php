@@ -2158,14 +2158,14 @@ class ImageLib
     public function saveImage($savePath, $imageQuality = "100")
     {
 
-        // *** Perform a check or two.
-        if (!is_resource($this->imageResized)) {
-            if ($this->debug) {
-                throw new _Exception('saveImage: This is not a resource.');
-            } else {
-                throw new _Exception();
-            }
-        }
+//        // *** Perform a check or two.
+//        if (!is_resource($this->imageResized)) {
+//            if ($this->debug) {
+//                throw new _Exception('saveImage: This is not a resource.');
+//            } else {
+//                throw new _Exception();
+//            }
+//        }
         $fileInfoArray = pathInfo($savePath);
         clearstatcache();
         if (!is_writable($fileInfoArray['dirname'])) {

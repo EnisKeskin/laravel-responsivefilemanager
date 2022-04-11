@@ -141,6 +141,7 @@ class RFM
         $info = pathinfo($path);
         $tmp_path = $info['dirname'];
         $str = self::fixFilename($info['filename'], $config);
+
         if ($tmp_path != "") {
             return $tmp_path . DIRECTORY_SEPARATOR . $str;
         } else {
@@ -465,6 +466,7 @@ class RFM
                 $imgthumb = $temp;
             }
         }
+
         if (file_exists($imgfile) || strpos($imgfile, 'http') === 0) {
             if (strpos($imgfile, 'http') === 0 || self::imageCheckMemoryUsage($imgfile, $newwidth, $newheight)) {
                 try {
@@ -609,13 +611,12 @@ class RFM
     {
         if($ftp){
             if ($path){
-                $ftp->mkdir($path);
+               return $ftp->mkdir($path);
             }
             try {
-
-                $ftp->mkdir($path_thumbs);
+               return $ftp->mkdir($path_thumbs);
             }catch (\Exception $e){
-                return false;
+                
             }
         }else{
             $oldumask = umask(0);

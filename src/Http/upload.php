@@ -22,9 +22,27 @@ use \Kwaadpepper\ResponsiveFileManager\RfmMimeTypesLib;
 
 $config = config('rfm');
 
-$_POST=request();
+$_POST=request()->post();
 $_FILES=request()->allFiles();
 $_SERVER=request()->server();
+
+
+$files = [];
+/**
+ * @var $value \Illuminate\Http\UploadedFile
+ */
+foreach ($_FILES['files'] as $key => $value) {
+    if ($value) {
+
+        $files = [
+            'name' => [$value->getClientOriginalName()],
+            'type' => [$value->getMimeType()],
+            'tmp_name' => [$value->getRealPath()],
+            'size' => [$value->getSize()],
+        ];
+    }
+}
+$_FILES['files'] = $files;
 
 /**
  * Check RF session
@@ -45,7 +63,7 @@ else
     $storeFolderThumb = $config['thumbs_base_path'].$_POST["fldr"];
 }
 
-try {
+//try {
     $ftp = RFM::ftpCon($config);
 
     if ($ftp) {
@@ -127,7 +145,7 @@ try {
             throw new _Exception('Is not a valid URL.');
         }
     }
-
+    
 
     if ($config['mime_extension_rename']) {
         $info = pathinfo($_FILES['files']['name'][0]);
@@ -164,9 +182,9 @@ try {
             $upload_handler->response['files'][0] = new _stdClass();
         }
         $upload_handler->response['files'][0]->error = __(
-            'max_size_reached',
-            ['size' => $config['MaxSizeTotal']]
-        ).RFM::addErrorLocation();
+                'max_size_reached',
+                ['size' => $config['MaxSizeTotal']]
+            ).RFM::addErrorLocation();
         echo json_encode($upload_handler->response);
         exit();
     }
@@ -176,7 +194,7 @@ try {
         'storeFolder' => $storeFolder,
         'storeFolderThumb' => $storeFolderThumb,
         'ftp' => $ftp,
-        'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']) . '/' . $storeFolder,
+        'upload_dir' => dirname(__FILE__) . '/' . $storeFolder,
         'upload_url' => $config['base_url'] . $config['upload_dir'] . $_POST['fldr'],
         'mkdir_mode' => $config['folderPermission'],
         'max_file_size' => $config['MaxSizeUpload'] * 1024 * 1024,
@@ -199,40 +217,50 @@ try {
     }
 
     if ($ftp) {
+
         if (!is_dir($config['ftp_temp_folder'])) {
             mkdir($config['ftp_temp_folder'], $config['folderPermission'], true);
         }
-
+        
         if (!is_dir($config['ftp_temp_folder'] . "thumbs")) {
             mkdir($config['ftp_temp_folder'] . "thumbs", $config['folderPermission'], true);
         }
 
         $uploadConfig['upload_dir'] = $config['ftp_temp_folder'];
     }
+    
+    if (!isset($_SERVER['SCRIPT_FILENAME'])) {
+        $_SERVER['SCRIPT_FILENAME'] = __FILE__;
+    }
+    
+    if (!isset($_SERVER['SCRIPT_NAME'])) {
+        $_SERVER['SCRIPT_NAME'] = __FILE__;
+    }
+    
 
     $upload_handler = new UploadHandler($ftp, $uploadConfig, true, $messages);
-} catch (_Exception $e) {
-    $return = array();
-
-    if ($_FILES['files']) {
-        foreach ($_FILES['files']['name'] as $i => $name) {
-            $return[] = array(
-                'name' => $name,
-                'error' => $e->getMessage(),
-                'size' => $_FILES['files']['size'][$i],
-                'type' => $_FILES['files']['type'][$i]
-            );
-        }
-
-        if (!FM_DEBUG_ERROR_MESSAGE) {
-            dd($e, array("files" => $return));
-        }
-
-        echo json_encode(array("files" => $return));
-        return;
-    }
-    if (!FM_DEBUG_ERROR_MESSAGE) {
-        dd($e);
-    }
-    echo json_encode(array("error" => $e->getMessage()));
-}
+//} catch (_Exception $e) {
+//    $return = array();
+//
+//    if ($_FILES['files']) {
+//        foreach ($_FILES['files']['name'] as $i => $name) {
+//            $return[] = array(
+//                'name' => $name,
+//                'error' => $e->getMessage(),
+//                'size' => $_FILES['files']['size'][$i],
+//                'type' => $_FILES['files']['type'][$i]
+//            );
+//        }
+//
+//        if (!FM_DEBUG_ERROR_MESSAGE) {
+//            dd($e, array("files" => $return));
+//        }
+//
+//        echo json_encode(array("files" => $return));
+//        return;
+//    }
+//    if (!FM_DEBUG_ERROR_MESSAGE) {
+//        dd($e);
+//    }
+//    echo json_encode(array("error" => $e->getMessage()));
+//}

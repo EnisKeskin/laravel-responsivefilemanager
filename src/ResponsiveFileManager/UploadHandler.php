@@ -11,6 +11,8 @@ namespace Kwaadpepper\ResponsiveFileManager;
  */
 
 use \Exception as _Exception;
+use Matrix\Exception;
+use Psy\Exception\ErrorException;
 use \stdClass as _stdClass;
 use Kwaadpepper\ResponsiveFileManager\RFM;
 use Kwaadpepper\ResponsiveFileManager\ImageLib;
@@ -460,6 +462,7 @@ class UploadHandler
         } else {
             $file_size = $content_length;
         }
+
         if (
             $this->options['max_file_size'] && ($file_size > $this->options['max_file_size'] ||
                 $file->size > $this->options['max_file_size'])
@@ -1750,8 +1753,14 @@ class UploadHandler
         if ($this->options['ftp']) {
             $this->options['ftp']->put($targetPath . $res['files'][0]->name, $targetFile, FTP_BINARY);
             unlink($targetFile);
+
             if ($is_img) {
-                $this->options['ftp']->put($targetPathThumb . $res['files'][0]->name, $targetFileThumb, FTP_BINARY);
+                try {
+                    $this->options['ftp']->put($targetPathThumb . $res['files'][0]->name, $targetFileThumb, FTP_BINARY);
+                }catch (\Exception $e){
+                    
+                }
+                
                 unlink($targetFileThumb);
             }
         }
