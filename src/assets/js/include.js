@@ -1588,6 +1588,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     {
                         sender: 'responsivefilemanager',
                         url: res,
+                        full_url: `${jQuery('#base_url').val()}${res}`,
                         field_id: external
                     },
                     '*'
@@ -1680,6 +1681,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     {
                         sender: 'responsivefilemanager',
                         url: urls[0],
+                        full_url: `${jQuery('#base_url').val()}${urls[0]}`,
                         field_id: external
                     },
                     '*'
@@ -1722,6 +1724,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     {
                         sender: 'responsivefilemanager',
                         url: urls[0],
+                        full_url: `${jQuery('#base_url').val()}${urls[0]}`,
                         field_id: external
                     },
                     '*'
@@ -1768,6 +1771,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     {
                         sender: 'responsivefilemanager',
                         url: urls[0],
+                        full_url: `${jQuery('#base_url').val()}${urls[0]}`,
                         field_id: external
                     },
                     '*'
@@ -1811,6 +1815,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 {
                     sender: 'responsivefilemanager',
                     url: url,
+                    full_url: `${jQuery('#base_url').val()}${url}`,
                     field_id: null
                 },
                 '*'
@@ -1824,6 +1829,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 window.parent.postMessage({
                     sender: 'responsivefilemanager',
                     url: url,
+                    full_url: `${jQuery('#base_url').val()}${url}`,
                     field_id: null
                 }, window.location.origin);
                 parent.tinymce.activeEditor.windowManager.close();
