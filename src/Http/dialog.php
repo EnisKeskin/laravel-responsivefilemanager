@@ -62,7 +62,7 @@ $subdir_path = '';
 
 if (isset($_GET['fldr']) && !empty($_GET['fldr'])) {
     $subdir_path = rawurldecode(trim(strip_tags($_GET['fldr']), "/"));
-} elseif (session()->has('RF.fldr') && !session()->has('RF.fldr')) {
+} elseif (session()->has('RF.fldr') && !empty(session()->get('RF.fldr'))) {
     $subdir_path = rawurldecode(trim(strip_tags(session('RF.fldr')), "/"));
 }
 
