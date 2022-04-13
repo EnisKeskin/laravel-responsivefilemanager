@@ -1688,6 +1688,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         sender: 'responsivefilemanager',
                         url: urls[0],
                         full_url: `${jQuery('#base_url').val()}${urls[0]}`,
+                        test:"1",
                         field_id: external
                     },
                     '*'
