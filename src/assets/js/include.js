@@ -7,6 +7,8 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
     var myLazyLoad = null;
     var clipboard = null;
     var checked = 0;
+    
+    console.log("asdasdas")
 
     var delay = (function () {
         var timer = 0;
@@ -125,6 +127,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 }
                 if (external != "") {
                     if (jQuery('#crossdomain').val() == 1) {
+                        console.log(1)
                         windowParent.postMessage(
                             {
                                 sender: 'responsivefilemanager',
@@ -1584,6 +1587,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         }
         if (external != "") {
             if (jQuery('#crossdomain').val() == 1) {
+                console.log(2)
                 windowParent.postMessage(
                     {
                         sender: 'responsivefilemanager',
@@ -1637,6 +1641,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
             }
 
             if (jQuery('#crossdomain').val() == 1) {
+                console.log(3)
                 windowParent.postMessage(
                     {
                         sender: 'responsivefilemanager',
@@ -1677,6 +1682,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
 
         if (external != "") {
             if (jQuery('#crossdomain').val() == 1) {
+                console.log(4)
                 windowParent.postMessage(
                     {
                         sender: 'responsivefilemanager',
@@ -1720,6 +1726,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
 
         if (external != "") {
             if (jQuery('#crossdomain').val() == 1) {
+                console.log(5)
                 windowParent.postMessage(
                     {
                         sender: 'responsivefilemanager',
@@ -1767,6 +1774,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
 
         if (external != "") {
             if (jQuery('#crossdomain').val() == 1) {
+                console.log(6)
                 windowParent.postMessage(
                     {
                         sender: 'responsivefilemanager',
@@ -1811,6 +1819,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
 
     apply_any = function (url) {
         if (jQuery('#crossdomain').val() == 1) {
+            console.log(7)
             window.parent.postMessage(
                 {
                     sender: 'responsivefilemanager',
@@ -1826,6 +1835,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 window.opener.CKEDITOR.tools.callFunction(funcNum, url);
                 window.close();
             } else {
+                console.log(8)
                 window.parent.postMessage({
                     sender: 'responsivefilemanager',
                     url: url,
