@@ -26,6 +26,9 @@ $_POST=request()->post();
 $_FILES=request()->allFiles();
 $_SERVER=request()->server();
 
+if (!$_POST) {
+    return;
+}
 
 $files = [];
 /**
