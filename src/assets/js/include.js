@@ -553,12 +553,12 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         },
 
         makeUploader: function () {
-            jQuery('#fileupload').fileupload({
-                // Uncomment the following to send cross-domain cookies:
-                //xhrFields: {withCredentials: true},
-                url: 'upload.php',
-                maxChunkSize: 2 * 1024 * 1024, // 2 MB
-            });
+            // jQuery('#fileupload').fileupload({
+            //     // Uncomment the following to send cross-domain cookies:
+            //     //xhrFields: {withCredentials: true},
+            //     url: 'upload.php',
+            //     maxChunkSize: 2 * 1024 * 1024, // 2 MB
+            // });
             jQuery('#fileupload').bind('fileuploaddrop', function (e, data) {
                 jQuery('.uploader').show(200);
                 setTimeout(function () {
