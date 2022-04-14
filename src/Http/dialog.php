@@ -52,6 +52,19 @@ if (FM_USE_ACCESS_KEYS == true) {
     if (!in_array($_GET['akey'], $config['access_keys'])) {
         die('Access Denied!');
     }
+    
+    if (session()->has('auth') && session()->get('auth') === false) {
+        die('Access Denied!');
+    } 
+    
+    if (!session()->has('auth')) {
+        session()->put('auth', auth()->check());
+        
+        if (auth()->check() === false) {
+            die('Access Denied!');
+        }
+    }
+    
 }
 
 if (isset($_POST['submit'])) {

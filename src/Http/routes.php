@@ -17,7 +17,7 @@ require_once __DIR__.'/boot.php';
 
 // Routes For Responsive API and Web (dialog.php)
 Route::group(
-    ['middleware' => ['auth', 'auth.session']],
+    ['middleware' => ['web']],
     function () use ($FM_ROUTE_PREFIX, $FM_ROUTES) {
         foreach ($FM_ROUTES as $file => $method) {
             Route::match(
@@ -32,6 +32,6 @@ Route::group(
     }
 );
 
-Route::group(['middleware' => ['auth', 'auth.session'], 'prefix' => 'filemanager'], function () {
+Route::group(['middleware' => ['web'], 'prefix' => 'filemanager'], function () {
     Route::post('force_download.php', [\Kwaadpepper\Http\Controllers\ForceDownloadController::class, 'download']);
 });
