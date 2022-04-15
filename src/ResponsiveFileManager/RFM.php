@@ -129,7 +129,7 @@ class RFM
             }
             return $ftp->fget($fhandle, $distant_file_path, FTP_BINARY);
         } catch (\Throwable $th) {
-            if ($config['$config['fm_debug_error_message']']) {
+            if (config['rfm.fm_debug_error_message']) {
                 dd($th);
             }
             return false;
@@ -287,7 +287,7 @@ class RFM
                 $ftp->rmdir('/' . config('rfm.ftp_base_folder') . '/' . $dir);
                 return true;
             } catch (\Exception $e) {
-                if (!$config['$config['fm_debug_error_message']']) {
+                if (!$config['rfm.fm_debug_error_message']) {
                     return false;
                 }
                 self::response(__('ftp_delete_failure') . self::addErrorLocation(), 200)->send();
