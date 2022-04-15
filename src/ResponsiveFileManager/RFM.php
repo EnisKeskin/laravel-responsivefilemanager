@@ -129,7 +129,7 @@ class RFM
             }
             return $ftp->fget($fhandle, $distant_file_path, FTP_BINARY);
         } catch (\Throwable $th) {
-            if (FM_DEBUG_ERROR_MESSAGE) {
+            if ($config['$config['fm_debug_error_message']']) {
                 dd($th);
             }
             return false;
@@ -287,7 +287,7 @@ class RFM
                 $ftp->rmdir('/' . config('rfm.ftp_base_folder') . '/' . $dir);
                 return true;
             } catch (\Exception $e) {
-                if (!FM_DEBUG_ERROR_MESSAGE) {
+                if (!$config['$config['fm_debug_error_message']']) {
                     return false;
                 }
                 self::response(__('ftp_delete_failure') . self::addErrorLocation(), 200)->send();
@@ -370,7 +370,7 @@ class RFM
                     "/" . RFM::cleanPath(config('rfm.ftp_base_folder') . $new_path)
                 );
             } catch (\Exception $e) {
-                if (!FM_DEBUG_ERROR_MESSAGE) {
+                if (!$config['fm_debug_error_message']) {
                     return false;
                 }
                 self::response(__('ftp_failure') . self::addErrorLocation() . ' ' . dump($e), 400)->send();
@@ -413,7 +413,7 @@ class RFM
                         "/" . RFM::cleanPath(config('rfm.ftp_base_folder') . $new_path)
                     );
                 } catch (\Exception $e) {
-                    if (!FM_DEBUG_ERROR_MESSAGE) {
+                    if (!$config['fm_debug_error_message']) {
                         return false;
                     }
                     self::response(__('ftp_failure') . self::addErrorLocation() . ' ' . dump($e), 400)->send();
@@ -1311,7 +1311,7 @@ class RFM
      */
     public static function addErrorLocation()
     {
-        if (defined('FM_DEBUG_ERROR_MESSAGE') and FM_DEBUG_ERROR_MESSAGE) {
+        if (defined('$config['fm_debug_error_message']') and $config['fm_debug_error_message']) {
             $pile = debug_backtrace();
             return " (@" . $pile[0]["file"] . "#" . $pile[0]["line"] . ")";
         }
@@ -1405,7 +1405,7 @@ class RFM
         }
 
         if (!self::checkRelativePath($param['path'])) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(__('path is wrong') . self::addErrorLocation(), 400)->send();
@@ -1413,7 +1413,7 @@ class RFM
         }
 
         if (strpos($param['name'], '/') !== false) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(__('name includes a forbidden \'/\' char') . self::addErrorLocation(), 400)->send();
@@ -1421,7 +1421,7 @@ class RFM
         }
 
         if (!($ftp = self::ftpCon(config('rfm')))) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(__('FTP is not configured') . self::addErrorLocation(), 400)->send();
@@ -1432,7 +1432,7 @@ class RFM
         $info = pathinfo($param['path']);
 
         if (!self::checkExtension($info['extension'], config('rfm'))) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(__('wrong extension') . self::addErrorLocation(), 400)->send();
@@ -1444,7 +1444,7 @@ class RFM
         $local_file_path_to_download = "";
         // make sure the file exists
         if (!self::ftpDownloadFile($ftp, $file_path, $name, $local_file_path_to_download)) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(
@@ -1470,7 +1470,7 @@ class RFM
         try {
             return decrypt($encryptedText);
         } catch (DecryptException $e) {
-            if (!FM_DEBUG_ERROR_MESSAGE) {
+            if (!$config['fm_debug_error_message']) {
                 throw new NotFoundHttpException();
             }
             self::response(__('decryption_failed') . self::addErrorLocation(), 400)->send();

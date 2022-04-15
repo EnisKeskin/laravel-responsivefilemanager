@@ -21,9 +21,9 @@ $version = "9.14.0";
 |
 */
 
-if (!defined('FM_USE_ACCESS_KEYS')) {
-    define('FM_USE_ACCESS_KEYS', true); // TRUE or FALSE
-}
+//if (!defined('FM_USE_ACCESS_KEYS')) {
+//    define('fm_use_access_keys', true); // TRUE or FALSE
+//}
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +31,9 @@ if (!defined('FM_USE_ACCESS_KEYS')) {
 |--------------------------------------------------------------------------
 */
 
-if (!defined('FM_DEBUG_ERROR_MESSAGE')) {
-    define('FM_DEBUG_ERROR_MESSAGE', false); // TRUE or FALSE
-}
+//if (!defined('FM_DEBUG_ERROR_MESSAGE')) {
+//    define('fm_debug_error_message', false); // TRUE or FALSE
+//}
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +64,9 @@ $config = array(
      * Set version in config instead of global var $config
      */
     'version' => $version,
+    
+    'fm_use_access_keys' => true,
+    'fm_debug_error_message' => false,
 
     /*
     |--------------------------------------------------------------------------

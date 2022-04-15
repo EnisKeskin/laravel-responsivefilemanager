@@ -48,7 +48,7 @@ $path = $base . request()->post('path');
 
 if ($ftp) {
     if (!request()->has('path')) {
-        if (!FM_DEBUG_ERROR_MESSAGE) {
+        if ($config['fm_debug_error_message']) {
             throw new NotFoundHttpException();
         }
         RFM::response(__('no path post param') . RFM::addErrorLocation(), 400)->send();

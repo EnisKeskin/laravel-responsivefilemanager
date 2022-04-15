@@ -42,7 +42,7 @@ $vendor_path = parse_url(asset('vendor/responsivefilemanager') . '/')['path'];
 $_GET=request();
 $_SERVER=request()->server();
 
-if (FM_USE_ACCESS_KEYS == true) {
+if ($config['fm_use_access_keys'] == true) {
     if (!isset($_GET['akey'], $config['access_keys']) || empty($config['access_keys'])) {
         die('Access Denied!');
     }
