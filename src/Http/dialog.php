@@ -544,16 +544,16 @@ $get_params = http_build_query($get_params);
         <div class="uploader">
             <div class="flex">
                 <div class="text-center">
-                    <button class="btn btn-inverse close-uploader"><i class="icon-backward icon-white"></i> <?php echo __('Return_Files_List') ?></button>
+                    <button class="btn btn-inverse close-uploader"><i class="icon-backward icon-white"></i> <?php echo "Dosya Listesine Geri Dön" ?></button>
                 </div>
                 <div class="space10"></div>
                 <div class="tabbable upload-tabbable">
                     <!-- Only required for left/right tabs -->
                     <div class="container1">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#baseUpload" data-toggle="tab"><?php echo __('Upload_base'); ?></a></li>
+                            <li class="active"><a href="#baseUpload" data-toggle="tab"><?php echo "Normal Yükleme"; ?></a></li>
                             <?php if ($config['url_upload']) { ?>
-                                <li><a href="#urlUpload" data-toggle="tab"><?php echo __('Upload_url'); ?></a></li>
+                                <li><a href="#urlUpload" data-toggle="tab"><?php echo "URL'den"; ?></a></li>
                             <?php } ?>
                         </ul>
                         <div class="tab-content">
@@ -575,12 +575,12 @@ $get_params = http_build_query($get_params);
                                                 <!-- The fileinput-button span is used to style the file input field as button -->
                                                 <span class="btn btn-success fileinput-button">
                                                     <i class="glyphicon glyphicon-plus"></i>
-                                                    <span><?php echo __('Upload_add_files'); ?></span>
+                                                    <span><?php echo "Dosya(ları) Ekle"; ?></span>
                                                     <input type="file" name="files[]" multiple="multiple" accept="<?php echo '.' . implode(',.', $config['ext']); ?>">
                                                 </span>
                                                 <button type="submit" class="btn btn-warning start">
                                                     <i class="glyphicon glyphicon-upload"></i>
-                                                    <span><?php echo __('Upload_start'); ?></span>
+                                                    <span><?php echo "Yüklemeyi Başlat"; ?></span>
                                                 </button>
                                                 <!-- The global file processing state -->
                                                 <span class="fileupload-process"></span>
@@ -592,7 +592,7 @@ $get_params = http_build_query($get_params);
                                                 <tbody class="files"></tbody>
                                             </table>
                                         </div>
-                                        <div class="upload-help"><?php echo __('Upload_base_help'); ?></div>
+                                        <div class="upload-help"><?php echo "Dosyaları sürükleyip bırakın (modern tarayıcılar) veya dosya ekleye tıklayarak dosyaları ekleyin ve Yüklemeyi başlat'a tıklayın. Yükleme tamamlandığında, 'Dosya listesine dön' düğmesini tıklayın."; ?></div>
                                     </div>
                                 </form>
                                 <!-- The template to display files available for upload -->
