@@ -668,9 +668,9 @@ $get_params = http_build_query($get_params);
                                     <br />
                                     <form class="form-horizontal">
                                         <div class="control-group">
-                                            <label class="control-label" for="url"><?php echo __('Upload_url'); ?></label>
+                                            <label class="control-label" for="url"><?php echo "URL'den"; ?></label>
                                             <div class="controls">
-                                                <input type="text" class="input-block-level" id="url" placeholder="<?php echo __('Upload_url'); ?>">
+                                                <input type="text" class="input-block-level" id="url" placeholder="<?php echo "URL'den"; ?>">
                                             </div>
                                         </div>
                                         <div class="control-group">
