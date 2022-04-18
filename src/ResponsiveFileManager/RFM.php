@@ -1311,7 +1311,7 @@ class RFM
      */
     public static function addErrorLocation()
     {
-        if ($config['fm_debug_error_message']) {
+        if (config('rfm.fm_debug_error_message')) {
             $pile = debug_backtrace();
             return " (@" . $pile[0]["file"] . "#" . $pile[0]["line"] . ")";
         }
