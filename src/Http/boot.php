@@ -62,3 +62,5 @@ $availableLangs = include __DIR__ . '/../I18N/languages.php';
 $preferredLang = RFM::getPreferredLanguage($availableLangs);
 app()->setLocale($preferredLang);
 session()->put('RF.language', $preferredLang);
+
+dd($preferredLang, $preferredLang);
