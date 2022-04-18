@@ -462,7 +462,7 @@ $get_params = http_build_query($get_params);
     <input type="hidden" id="cur_dir_thumb" value="<?php echo $cur_dir_thumb; ?>" />
     <input type="hidden" id="insert_folder_name" value="<?php echo __('Insert_Folder_Name'); ?>" />
     <input type="hidden" id="rename_existing_folder" value="<?php echo __('Rename_existing_folder'); ?>" />
-    <input type="hidden" id="new_folder" value="<?php echo __('New_Folder'); ?>" />
+    <input type="hidden" id="new_folder" value="<?php echo "Yeni Klasör"; ?>" />
     <input type="hidden" id="ok" value="<?php echo __('OK'); ?>" />
     <input type="hidden" id="cancel" value="<?php echo __('Cancel'); ?>" />
     <input type="hidden" id="rename" value="<?php echo __('Rename'); ?>" />
@@ -521,7 +521,7 @@ $get_params = http_build_query($get_params);
                                                                     echo 0;
                                                                 } ?>" />
     <input type="hidden" id="lang_edit_file" value="<?php echo __('Edit_File'); ?>" />
-    <input type="hidden" id="lang_new_file" value="<?php echo __('New_File'); ?>" />
+    <input type="hidden" id="lang_new_file" value="<?php echo "Yeni Dosya"; ?>" />
     <input type="hidden" id="lang_filename" value="<?php echo __('Filename'); ?>" />
     <input type="hidden" id="lang_file_info" value="<?php echo RFM::fixStrtoupper(__('File_info')); ?>" />
     <input type="hidden" id="lang_edit_image" value="<?php echo __('Edit_image'); ?>" />
@@ -675,7 +675,7 @@ $get_params = http_build_query($get_params);
                                         </div>
                                         <div class="control-group">
                                             <div class="controls">
-                                                <button class="btn btn-warning" id="uploadURL"><?php echo  __('Upload_file'); ?></button>
+                                                <button class="btn btn-warning" id="uploadURL"><?php echo  "Dosya Yükle"; ?></button>
                                             </div>
                                         </div>
                                     </form>
@@ -928,13 +928,13 @@ $get_params = http_build_query($get_params);
                         <div class="row-fluid">
                             <div class="span4 half">
                                 <?php if ($config['upload_files']) { ?>
-                                    <button class="tip btn upload-btn btn-success btn-large" title="<?php echo  __('Upload_file'); ?>"><i class="rficon-upload"></i><?php echo  __('Upload_file'); ?></button>
+                                    <button class="tip btn upload-btn btn-success btn-large" title="<?php echo  "Dosya Yükle"; ?>"><i class="rficon-upload"></i><?php echo  "Dosya Yükle"; ?></button>
                                 <?php } ?>
                                 <?php if ($config['create_text_files']) { ?>
-                                    <button class="tip btn create-file-btn btn-large" title="<?php echo  __('New_File'); ?>"><i class="icon-plus"></i><i class="icon-file"></i></button>
+                                    <button class="tip btn create-file-btn btn-large" title="<?php echo  "Yeni Dosya"; ?>"><i class="icon-plus"></i><i class="icon-file"></i></button>
                                 <?php } ?>
                                 <?php if ($config['create_folders']) { ?>
-                                    <button class="tip btn new-folder btn-large" title="<?php echo  __('New_Folder') ?>"><i class="icon-plus"></i><i class="icon-folder-open"></i></button>
+                                    <button class="tip btn new-folder btn-large" title="<?php echo  "Yeni Klasör" ?>"><i class="icon-plus"></i><i class="icon-folder-open"></i></button>
                                 <?php } ?>
                                 <?php if ($config['copy_cut_files'] || $config['copy_cut_dirs']) { ?>
                                     <button class="tip btn paste-here-btn btn-large" title="<?php echo __('Paste_Here'); ?>"><i class="rficon-clipboard-apply"></i></button>
@@ -956,17 +956,17 @@ $get_params = http_build_query($get_params);
                             <div class="span2 half view-controller">
                                 <button class="btn tip<?php if ($view == 0) {
                                                             echo " btn-inverse btn-large";
-                                                        } ?>" id="view0" data-value="0" title="<?php echo __('View_boxes'); ?>"><i class="icon-th <?php if ($view == 0) {
+                                                        } ?>" id="view0" data-value="0" title="<?php echo "Kutu görünümü"; ?>"><i class="icon-th <?php if ($view == 0) {
                                                                                                                                                         echo "icon-white";
                                                                                                                                                     } ?>"></i></button>
                                 <button class="btn tip<?php if ($view == 1) {
                                                             echo " btn-inverse btn-large";
-                                                        } ?>" id="view1" data-value="1" title="<?php echo __('View_list'); ?>"><i class="icon-align-justify <?php if ($view == 1) {
+                                                        } ?>" id="view1" data-value="1" title="<?php echo "Liste görünümü"; ?>"><i class="icon-align-justify <?php if ($view == 1) {
                                                                                                                                                                 echo "icon-white";
                                                                                                                                                             } ?>"></i></button>
                                 <button class="btn tip<?php if ($view == 2) {
                                                             echo " btn-inverse btn-large";
-                                                        } ?>" id="view2" data-value="2" title="<?php echo __('View_columns_list'); ?>"><i class="icon-fire <?php if ($view == 2) {
+                                                        } ?>" id="view2" data-value="2" title="<?php echo "Sütunlu liste görünümü"; ?>"><i class="icon-fire <?php if ($view == 2) {
                                                                                                                                                                 echo "icon-white";
                                                                                                                                                             } ?>"></i></button>
                             </div>
@@ -995,7 +995,7 @@ $get_params = http_build_query($get_params);
                                             <label id="ff-item-type-5" title="<?php echo __('Music'); ?>" for="select-type-5" class="tip btn ff-label-type-5"><i class="icon-music"></i></label>
                                         <?php } ?>
                                     <?php } ?>
-                                    <input accesskey="f" type="text" class="filter-input <?php echo (($_GET['type'] != 1 && $_GET['type'] != 3) ? '' : 'filter-input-notype'); ?>" id="filter-input" name="filter" placeholder="<?php echo RFM::fixStrtolower(__('Text_filter')); ?>..." value="<?php echo $filter; ?>" /><?php if ($n_files > $config['file_number_limit_js']) {
+                                    <input accesskey="f" type="text" class="filter-input <?php echo (($_GET['type'] != 1 && $_GET['type'] != 3) ? '' : 'filter-input-notype'); ?>" id="filter-input" name="filter" placeholder="<?php echo RFM::fixStrtolower("Filtre"); ?>..." value="<?php echo $filter; ?>" /><?php if ($n_files > $config['file_number_limit_js']) {
                                                                                                                                                                                                                                                                                                                             ?><label id="filter" class="btn"><i class="icon-play"></i></label><?php
                                                                                                                                                                                                                                                                                                                                                                                             } ?>
 
