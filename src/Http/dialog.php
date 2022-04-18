@@ -928,7 +928,7 @@ $get_params = http_build_query($get_params);
                         <div class="row-fluid">
                             <div class="span4 half">
                                 <?php if ($config['upload_files']) { ?>
-                                    <button class="tip btn upload-btn btn-success btn-large" title="<?php echo  __('Upload_file'); ?>"><i class="rficon-upload"></i><?php echo  __('Upload_file'); ?></button>
+                                    <button class="tip btn upload-btn btn-success btn-large" title="<?php echo  trans('Upload_file'); ?>"><i class="rficon-upload"></i><?php echo  __('Upload_file'); ?></button>
                                 <?php } ?>
                                 <?php if ($config['create_text_files']) { ?>
                                     <button class="tip btn create-file-btn btn-large" title="<?php echo  __('New_File'); ?>"><i class="icon-plus"></i><i class="icon-file"></i></button>
