@@ -55,7 +55,7 @@ if (!session()->exists('RF') || session('RF.verify') != "RESPONSIVEfilemanager")
     exit;
 }
 
-if (isset($_POST["fldr"]) && $_POST["fldr"] === '') {
+if (array_key_exists('fldr',$_POST) && ($_POST["fldr"] === '' || $_POST["fldr"] === null)) {
     $_POST["fldr"] = '/';
 }
 
