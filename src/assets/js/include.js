@@ -567,6 +567,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
             });
             jQuery('#fileupload').bind('fileuploadsubmit', function (e, data) {
                 // The example input, doesn't have to be part of the upload form:
+                console.log(jQuery('#sub_folder').val() + jQuery('#fldr_value').val() + (data.files[0].relativePath || data.files[0].webkitRelativePath || '/'))
                 data.formData = {
                     fldr: jQuery('#sub_folder').val() + jQuery('#fldr_value').val() + (data.files[0].relativePath || data.files[0].webkitRelativePath || ''),
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
@@ -600,6 +601,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 e.preventDefault();
                 var url = jQuery('#url').val();
                 var fldr = jQuery('#fldr_value').val();
+                console.log(fldr)
                 show_animation();
                 $.ajax({
                     type: "POST",
