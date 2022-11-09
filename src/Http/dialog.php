@@ -112,10 +112,6 @@ if (count($config['hidden_folders'])) {
     }
 }
 
-if ($subdir == "") {
-    $subdir = "/";
-}
-
 if ($config['show_total_size']) {
     list($sizeCurrentFolder, $fileCurrentNum, $foldersCurrentCount) = RFM::folderInfo($config['current_path'], false);
 }

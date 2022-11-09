@@ -55,6 +55,10 @@ if (!session()->exists('RF') || session('RF.verify') != "RESPONSIVEfilemanager")
     exit;
 }
 
+if (isset($_POST["fldr"]) && $_POST["fldr"] === '') {
+    $_POST["fldr"] = '/';
+}
+
 if (isset($_POST['path']))
 {
     $storeFolder = $_POST['path'];
@@ -222,11 +226,11 @@ else
     if ($ftp) {
 
         if (!is_dir($config['ftp_temp_folder'])) {
-            mkdir($config['ftp_temp_folder'], $config['folderPermission'], true);
+            mkdir($config['ftp_temp_folder'], 0777, true);
         }
         
         if (!is_dir($config['ftp_temp_folder'] . "thumbs")) {
-            mkdir($config['ftp_temp_folder'] . "thumbs", $config['folderPermission'], true);
+            mkdir($config['ftp_temp_folder'] . "thumbs", 0777, true);
         }
 
         $uploadConfig['upload_dir'] = $config['ftp_temp_folder'];
