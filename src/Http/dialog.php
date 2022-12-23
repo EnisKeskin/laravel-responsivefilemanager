@@ -44,24 +44,24 @@ $_SERVER=request()->server();
 
 if ($config['fm_use_access_keys'] == true) {
     if (!isset($_GET['akey'], $config['access_keys']) || empty($config['access_keys'])) {
-        die('Access Denied!');
+        die('Access Denied! - Config içerisinde akey veya access_keys bulunuyor');
     }
 
     $_GET['akey'] = strip_tags(preg_replace("/[^a-zA-Z0-9\._-]/", '', $_GET['akey']));
 
     if (!in_array($_GET['akey'], $config['access_keys'])) {
-        die('Access Denied!');
+        die('Access Denied! akey ile acess_keys eşleşmiyor');
     }
     
     if (session()->has('auth') && session()->get('auth') === false) {
-        die('Access Denied!');
+        die('Access Denied! session auth geçerli değil veya false ise');
     } 
     
     if (!session()->has('auth')) {
         session()->put('auth', auth()->check());
         
         if (auth()->check() === false) {
-            die('Access Denied!');
+            die('Access Denied! auth check false');
         }
     }
     
