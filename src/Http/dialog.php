@@ -58,11 +58,11 @@ if ($config['fm_use_access_keys'] == true) {
     } 
     
     if (!session()->has('auth')) {
-        session()->put('auth', auth()->check());
-        
         if (auth()->check() === false) {
             die('Access Denied! auth check false');
         }
+
+        session()->put('auth', auth()->check());
     }
     
 }
