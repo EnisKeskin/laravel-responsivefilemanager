@@ -22,6 +22,14 @@ use \Kwaadpepper\ResponsiveFileManager\RFM;
 
 session()->start();
 
+$_GET=request();
+$_SERVER=request()->server();
+
+if (blank($_GET['temp_upload_dir']) && session()->has('temp_upload_dir_used')) {
+    session()->forget('RF');
+    session()->forget('temp_upload_dir_used');
+}
+
 // Autorise user when first visiting dialog.php
 session()->put('RF.verify', "RESPONSIVEfilemanager");
 
@@ -38,9 +46,6 @@ if (!session()->get('RF.composerVersion')) {
 $time = time();
 
 $vendor_path = parse_url(asset('vendor/responsivefilemanager') . '/')['path'];
-
-$_GET=request();
-$_SERVER=request()->server();
 
 if ($config['fm_use_access_keys'] == true) {
     if (!isset($_GET['akey'], $config['access_keys']) || empty($config['access_keys'])) {
@@ -66,6 +71,16 @@ if ($config['fm_use_access_keys'] == true) {
     }
     
 }
+
+if (!blank($_GET['temp_upload_dir'])) {
+    $slashTrimmedTempUploadDir = trim($_GET['temp_upload_dir'], '/');
+    config(['rfm.upload_dir' => '/'.$slashTrimmedTempUploadDir.'/']);
+    config(['rfm.ftp_thumbs_dir' => config('rfm.ftp_thumbs_base_dir').$slashTrimmedTempUploadDir.'/']);
+    $config = config('rfm');
+    session()->put('temp_upload_dir_used', true);
+
+}
+
 
 if (isset($_POST['submit'])) {
     include __DIR__ . '/upload.php';
@@ -334,6 +349,7 @@ if (!$apply) {
 }
 
 $get_params = array(
+    'temp_upload_dir' => $_GET['temp_upload_dir'],
     'editor'        => $editor,
     'type'          => $type_param,
     'lang'          => session('RF.language'),
