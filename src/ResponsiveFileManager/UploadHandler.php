@@ -1622,7 +1622,7 @@ class UploadHandler
         $targetPath = $this->options['storeFolder'];
         $targetPathThumb = $this->options['storeFolderThumb'];
 
-        if (!$this->options['ftp']) {
+        if (!$ftp) {
             $targetFile =  $targetPath . $res['files'][0]->name;
             $targetFileThumb =  $targetPathThumb . $res['files'][0]->name;
             if (!is_dir($targetPathThumb)) {
@@ -1668,7 +1668,7 @@ class UploadHandler
                 }
             } else {
                 if (
-                    !$this->options['ftp'] &&
+                    !$ftp &&
                     !RFM::newThumbnailsCreation(
                         $ftp,
                         $targetPath,
@@ -1750,13 +1750,13 @@ class UploadHandler
             }
         }
 
-        if ($this->options['ftp']) {
-            $this->options['ftp']->put($targetPath . $res['files'][0]->name, $targetFile, FTP_BINARY);
+        if ($ftp) {
+            $ftp->put($targetPath . $res['files'][0]->name, $targetFile, FTP_BINARY);
             unlink($targetFile);
 
             if ($is_img) {
                 try {
-                    $this->options['ftp']->put($targetPathThumb . $res['files'][0]->name, $targetFileThumb, FTP_BINARY);
+                    $ftp->put($targetPathThumb . $res['files'][0]->name, $targetFileThumb, FTP_BINARY);
                 }catch (\Exception $e){
                     
                 }
