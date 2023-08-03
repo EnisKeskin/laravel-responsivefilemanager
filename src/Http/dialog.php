@@ -25,7 +25,7 @@ session()->start();
 $_GET=request();
 $_SERVER=request()->server();
 
-if (blank($_GET['temp_upload_dir']) && session()->has('temp_upload_dir_used')) {
+if ((!$_GET->has('temp_upload_dir') || blank($_GET['temp_upload_dir'])) && session()->has('temp_upload_dir_used')) {
     session()->forget('RF');
     session()->forget('temp_upload_dir_used');
 }
@@ -72,7 +72,7 @@ if ($config['fm_use_access_keys'] == true) {
     
 }
 
-if (!blank($_GET['temp_upload_dir'])) {
+if ($_GET->has('temp_upload_dir') && !blank($_GET['temp_upload_dir'])) {
     $slashTrimmedTempUploadDir = trim($_GET['temp_upload_dir'], '/');
     config(['rfm.upload_dir' => '/'.$slashTrimmedTempUploadDir.'/']);
     config(['rfm.ftp_thumbs_dir' => config('rfm.ftp_thumbs_base_dir').$slashTrimmedTempUploadDir.'/']);
@@ -474,6 +474,9 @@ $get_params = http_build_query($get_params);
     <input type="hidden" id="multiple" value="<?php echo $multiple; ?>" />
     <input type="hidden" id="type_param" value="<?php echo $type_param; ?>" />
     <input type="hidden" id="upload_dir" value="<?php echo $config['upload_dir']; ?>" />
+    <?php if ($_GET->has('temp_upload_dir') && !blank($_GET['temp_upload_dir'])) { ?>
+    <input type="hidden" id="temp_upload_dir" value="<?php echo $config['upload_dir']; ?>">
+    <?php } ?>
     <input type="hidden" id="cur_dir" value="<?php echo $cur_dir; ?>" />
     <input type="hidden" id="cur_dir_thumb" value="<?php echo $cur_dir_thumb; ?>" />
     <input type="hidden" id="insert_folder_name" value="<?php echo __('Insert_Folder_Name'); ?>" />

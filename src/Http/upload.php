@@ -30,6 +30,15 @@ if (!$_POST) {
     return;
 }
 
+if (array_key_exists('temp_upload_dir', $_POST) && !blank($_POST['temp_upload_dir'])) {
+    $slashTrimmedTempUploadDir = trim($_POST['temp_upload_dir'], '/');
+    config(['rfm.upload_dir' => '/'.$slashTrimmedTempUploadDir.'/']);
+    config(['rfm.ftp_thumbs_dir' => config('rfm.ftp_thumbs_base_dir').$slashTrimmedTempUploadDir.'/']);
+    $config = config('rfm');
+    session()->put('temp_upload_dir_used', true);
+
+}
+
 $files = [];
 /**
  * @var $value \Illuminate\Http\UploadedFile
