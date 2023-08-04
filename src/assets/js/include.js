@@ -568,7 +568,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
             jQuery('#fileupload').bind('fileuploadsubmit', function (e, data) {
                 // The example input, doesn't have to be part of the upload form:
                 data.formData = {
-                    temp_upload_dir: jQuery('#temp_upload_dir').val() || null,
+                    temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                     fldr: jQuery('#sub_folder').val() + jQuery('#fldr_value').val() + (data.files[0].relativePath || data.files[0].webkitRelativePath || ''),
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                 };
@@ -2034,7 +2034,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 data: {
                     path: file,
                     name: name.replace('/', ''),
-                    temp_upload_dir: jQuery('#temp_upload_dir').val() || null,
+                    temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (msg) {
@@ -2061,7 +2061,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     path: files[0],
                     paths: files,
                     names: names,
-                    temp_upload_dir: jQuery('#temp_upload_dir').val() || null,
+                    temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (msg) {
