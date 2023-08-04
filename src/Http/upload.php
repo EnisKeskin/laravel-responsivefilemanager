@@ -254,6 +254,7 @@ else
     }
     
 
+    logger('$uploadConfig', [$uploadConfig]);
     $upload_handler = new UploadHandler($ftp, $uploadConfig, true, $messages);
 //} catch (_Exception $e) {
 //    $return = array();

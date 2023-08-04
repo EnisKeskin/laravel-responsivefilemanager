@@ -1751,6 +1751,11 @@ class UploadHandler
         }
 
         if ($ftp) {
+            logger('ftp put', [
+                $targetPath . $res['files'][0]->name,
+                $targetFile,
+                FTP_BINARY
+            ]);
             $ftp->put($targetPath . $res['files'][0]->name, $targetFile, FTP_BINARY);
             unlink($targetFile);
 
