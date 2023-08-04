@@ -23,6 +23,14 @@ class ForceDownloadController extends Controller
             RFM::response(__('wrong path') . RFM::addErrorLocation(), 400)->send();
             exit;
         }
+        
+        $post = request()->post();
+
+        if (array_key_exists('temp_upload_dir', $post) && !blank($post['temp_upload_dir'])) {
+            $slashTrimmedTempUploadDir = trim($post['temp_upload_dir'], '/');
+            config(['rfm.upload_dir' => '/'.$slashTrimmedTempUploadDir.'/']);
+            config(['rfm.ftp_thumbs_dir' => config('rfm.ftp_thumbs_base_dir').$slashTrimmedTempUploadDir.'/']);
+        }
 
         $ftp = RFM::ftpCon(config('rfm'));
 
