@@ -1483,6 +1483,9 @@ $get_params = http_build_query($get_params);
                                                 <input type="hidden" name="path" value="<?php echo $rfm_subfolder . $subdir ?>" />
                                                 <input type="hidden" class="name_download" name="name" value="<?php echo $file ?>" />
                                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
+                                                <?php if ($_GET->has('temp_upload_dir') && !blank($_GET['temp_upload_dir'])) { ?>
+                                                    <input type="hidden" name="temp_upload_dir" value="<?php echo $config['upload_dir']; ?>">
+                                                <?php } ?>
 
                                                 <a title="<?php echo __('Download') ?>" class="tip-right" href="javascript:void('')" <?php if ($config['download_files']) {
                                                                                                                                             echo "onclick=\"$('#form" . $nu . "').submit();\"";
