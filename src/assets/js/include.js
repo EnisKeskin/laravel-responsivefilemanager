@@ -791,6 +791,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         data: {
                             path: folder_path,
                             name: name,
+                            temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                             _token: jQuery('meta[name="csrf-token"]').attr('content')
                         }
                     }).done(function (msg) {
@@ -1050,6 +1051,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                                     path: folder_path,
                                     name: newFileName,
                                     new_content: newContent,
+                                    temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                                 }
                             }).done(function (status_msg) {
@@ -1104,6 +1106,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                             data: {
                                 path: full_path,
                                 new_content: newContent,
+                                temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                                 _token: jQuery('meta[name="csrf-token"]').attr('content')
                             }
                         }).done(function (status_msg) {
@@ -1258,6 +1261,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                                     new_mode: newPerm,
                                     is_recursive: recOpt,
                                     folder: folder,
+                                    temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                                 }
                             }).done(function (status_msg) {
@@ -1399,6 +1403,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     url: "execute.php?action=paste_clipboard",
                     data: {
                         path: folder_path,
+                        temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                         _token: jQuery('meta[name="csrf-token"]').attr('content')
                     }
                 }).done(function (msg) {
@@ -1459,6 +1464,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     url: "execute.php?action=paste_clipboard",
                     data: {
                         path: folder_path,
+                        temp_upload_dir: jQuery('#temp_upload_dir').val() || '',
                         _token: jQuery('meta[name="csrf-token"]').attr('content')
                     }
                 }).done(function (msg) {
