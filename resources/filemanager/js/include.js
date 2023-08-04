@@ -2034,6 +2034,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 data: {
                     path: file,
                     name: name.replace('/', ''),
+                    temp_upload_dir: jQuery('#temp_upload_dir').val() || null,
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (msg) {
@@ -2060,6 +2061,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     path: files[0],
                     paths: files,
                     names: names,
+                    temp_upload_dir: jQuery('#temp_upload_dir').val() || null,
                     _token: jQuery('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (msg) {
