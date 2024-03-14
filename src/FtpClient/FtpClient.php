@@ -655,9 +655,21 @@ class FtpClient implements _Countable
      */
     public function rawlist($directory = '.', $recursive = false)
     {
-        if (!$this->isDir($directory)) {
-            $this->mkdir($directory);
-//            throw new FtpException('"' . $directory . '" is not a directory.');
+        $parts = explode('/', $directory);
+        $result = array_reduce($parts, static function ($carry, $item) {
+            $carry[] = end($carry).'/'.$item;
+
+            return $carry;
+        }, ['']);
+        array_shift($result);
+
+        foreach($result as $item) {
+            try {
+                if(!$this->isDir($item)) {
+                    $this->mkdir($item);
+                }
+            }catch(\Exception $e) {
+            }
         }
 
         $list  = $this->ftp->rawlist($directory);
